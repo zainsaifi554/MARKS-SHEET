@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Sheet</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Mark Sheet</h1>
+    <br><br>
+
+    <div id="main">
+    </div>
+
+    <script>
+        var marks1 = prompt("Enter English Marks");
+        var marks2 = prompt("Enter Urdu Marks");
+        var marks3 = prompt("Enter Math Marks");
+        var marks4 = prompt("Enter Science Marks");
+        var marks5 = prompt("Enter History Marks");
+
+        var totalMarksPerSubject = 100;
+        var totalMarksObtained = Number(marks1) + Number(marks2) + Number(marks3) + Number(marks4) + Number(marks5);
+        var totalMarks = totalMarksPerSubject * 5;
+
+        var getMainElm = document.getElementById("main");
+
+        // Function to calculate the percentage
+        function calculatePercentage(marksObtained) {
+            return (marksObtained / totalMarks) * 100;
+        }
+
+        // Function to calculate the grade based on total marks
+        function calculateGrade(totalMarksObtained) {
+            var percentage = calculatePercentage(totalMarksObtained);
+            if (percentage >= 90) {
+                return "A+";
+            } else if (percentage >= 80) {
+                return "A";
+            } else if (percentage >= 70) {
+                return "B";
+            } else if (percentage >= 60) {
+                return "C";
+            } else if (percentage >= 50) {
+                return "D";
+            } else {
+                return "F";
+            }
+        }
+
+        var table = document.createElement("table");
+        var headerRow = document.createElement("tr");
+
+        // Table headers
+        var headers = ["S.No", "Subjects", "Obtained Marks", "Total Marks", "Percentage", "Grades"];
+        headers.forEach(function(header) {
+            var th = document.createElement("th");
+            th.innerText = header;
+            headerRow.appendChild(th);
+        });
+        table.appendChild(headerRow);
+
+        // Create rows for each subject
+        var subjects = [
+            { name: "English", marks: marks1 },
+            { name: "Urdu", marks: marks2 },
+            { name: "Math", marks: marks3 },
+            { name: "Science", marks: marks4 },
+            { name: "History", marks: marks5 }
+        ];
+
+        subjects.forEach(function(subject, index) {
+            var row = document.createElement("tr");
+            var col1 = document.createElement("td");
+            var col2 = document.createElement("td");
+            var col3 = document.createElement("td");
+            var col4 = document.createElement("td");
+            var col5 = document.createElement("td");
+            var col6 = document.createElement("td");
+
+            col1.innerText = index + 1; // S.No
+            col2.innerText = subject.name; // Subject name
+            col3.innerText = subject.marks; // Obtained marks
+            col4.innerText = totalMarksPerSubject; // Total marks
+            col5.innerText = calculatePercentage(subject.marks); // Percentage
+            col6.innerText = calculateGrade(totalMarksObtained); // Grade
+
+            row.appendChild(col1);
+            row.appendChild(col2);
+            row.appendChild(col3);
+            row.appendChild(col4);
+            row.appendChild(col5);
+            row.appendChild(col6);
+            table.appendChild(row);
+        });
+
+        // Add a summary row for total marks and grades
+        var summaryRow = document.createElement("tr");
+        var colSummary = document.createElement("td");
+        colSummary.innerText = "Total";
+        colSummary.colSpan = 2; // Span two columns for the total label
+        summaryRow.appendChild(colSummary);
+
+        var colTotalMarks = document.createElement("td");
+        colTotalMarks.innerText = totalMarksObtained; // Total obtained marks
+        summaryRow.appendChild(colTotalMarks);
+
+        var colTotal = document.createElement("td");
+        colTotal.innerText = totalMarks; // Total marks
+        summaryRow.appendChild(colTotal);
+
+        var colPercentage = document.createElement("td");
+        colPercentage.innerText = calculatePercentage(totalMarksObtained); // Total percentage
+        summaryRow.appendChild(colPercentage);
+
+        var colGrade = document.createElement("td");
+        colGrade.innerText = calculateGrade(totalMarksObtained); // Total grade
+        summaryRow.appendChild(colGrade);
+
+        table.appendChild(summaryRow);
+
+        getMainElm.appendChild(table);
+
+        console.log(getMainElm);
+        console.log(table);
+    </script>
+</body>
+
+</html>
